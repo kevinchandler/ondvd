@@ -1,5 +1,4 @@
 // TODO
-// Sort methods
 // update showUserRegistration to save email to local storage, check value before display prompt. set state flag when email is not there
 
 'use strict';
@@ -51,12 +50,7 @@ var ondvd = React.createClass({
     }
 
     // Display movies
-    return (
-      <ListView
-        dataSource={this.state.dataSource}
-        renderRow={this.renderMovie}
-        style={styles.movieList} />
-    )
+    return this.renderMoviesInTheaters();
   },
 
   renderLoadingView: function() {
@@ -74,7 +68,7 @@ var ondvd = React.createClass({
       <ListView
         dataSource={this.state.dataSource}
         renderRow={this.renderMovie}
-        style={styles.movieList} />
+        style={styles.movieList}  />
     )
   },
 
@@ -147,81 +141,65 @@ var ondvd = React.createClass({
     }
   },
 
-  sortMoviesByRating: function() {
-    var sorted = this.state.rawData.sort(function(a, b) {
-      return a.ratings.audience_score - b.ratings.audience_score
-    }).reverse();
-
-    this.setState({
-      dataSource: this.state.dataSource.cloneWithRows(sorted),
-      rawData: sorted,
-    })
-  },
-
-  // sortMoviesByTitle: function() {
-
-  // },
-
-  // sortMoviesByReleaseDate: function() {
-
-  // },
-
 });
 
 var styles = StyleSheet.create({
 
   container: {
-    margin: 50
-  },
-  
-  userEmailInput: {
-    width: 200,
-    height: 200,
-    color: 'gray'
+    margin: 50,
   },
   
   listView: {
-    paddingTop: 50,
-    backgroundColor: '#F5FCFF',
     flexDirection: 'row',
+    paddingTop: 20,
+    paddingBottom: 20,
+    backgroundColor: '#34495e',
+    borderWidth: 1,
+    borderColor: 'black',
   },
 
   moviePosterContainer: {
+    flex: 1,
   },
 
   movieInfoContainer: {
     flex: 1,
     flexDirection: 'row',
     margin: 20,
+    maxHeight: 50,
   },
 
   movieTitle: {
     flex: 2,
+    flexWrap: 'wrap',
+    color: '#ecf0f1',
     textAlign: 'center',
     marginRight: 10,
   },
 
   movieYear: {
+    flex: 1,
+    color: '#ecf0f1',
     textAlign: 'center',
     marginRight: 10,
 
   },
 
   movieAudienceScore: {
+    color: '#ecf0f1',
     textAlign: 'center',
     marginRight: 10,
 
   },
 
   movieSynopsis: {
-
+    color: '#ecf0f1',
   },
 
   moviePoster: {
     width: 53,
     height: 81,
   },
-
 
 });
 
