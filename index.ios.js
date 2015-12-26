@@ -1,6 +1,3 @@
-// TODO
-// update showUserRegistration to save email to local storage, check value before display prompt. set state flag when email is not there
-
 'use strict';
 
 var React = require('react-native');
