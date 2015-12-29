@@ -132,7 +132,16 @@ var ondvd = React.createClass({
 
   showMovieSynopsis: function(movie) {
     if (movie && movie.synopsis && movie.synopsis.length) {
-      Alert.alert(movie.title, movie.synopsis);
+      // Alert.alert(movie.title, movie.synopsis);
+      AlertIOS.alert(
+        movie.title,
+        movie.synopsis,
+        [
+          {text: 'Close'},
+          {text: "Notify Me", onPress: (text) => this.saveMovie(movie)}
+        ],
+        'default'
+      )
     } else {
       Alert.alert('Oh no!', 'It looks like the synopsis is unavailable :(')
     }
