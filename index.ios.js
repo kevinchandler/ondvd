@@ -2,6 +2,7 @@
 
 var React = require('react-native');
 var REQUEST_URL = 'https://raw.githubusercontent.com/facebook/react-native/master/docs/MoviesExample.json';
+var MOVIES = require('./movies.json')
 
 var {
   Alert,
@@ -24,7 +25,6 @@ var ondvd = React.createClass({
         rowHasChanged: (row1, row2) => row1 !== row2,
       }),
       moviesLoaded: false,
-      showRegistration: false, //default to false
       email: '',
     }
   },
@@ -34,12 +34,6 @@ var ondvd = React.createClass({
   },
   
   render: function() {
-
-    // Is the user registered?
-    // Extract this to check before user tries to save movie
-    if (this.state.showRegistration) {
-      this.showRegistration();
-    }
 
     // Have movies loaded yet?
     if (!this.state.moviesLoaded) {
@@ -75,24 +69,33 @@ var ondvd = React.createClass({
       'Enter Your Email',
       'Enter your email address here and you\'ll be notified once movies of your choosing are available on DVD. Don\'t worry, you can do this later.',
       [
-        {text: 'Maybe Later', onPress: () => this.setState({showRegistration: false})},
-        {text: "Save", onPress: (text) => this.setState({email: text, showRegistration: false})}
+        {text: 'Maybe Later'},
+        {text: "Save", onPress: (text) => this.setState({email: text})}
       ],
       'plain-text'
     )
   },
 
+  // fetchMovies: function() {
+  //   fetch(REQUEST_URL)
+  //     .then((response) => response.json())
+  //     .then((responseData) => {
+        // this.setState({
+        //   dataSource: this.state.dataSource.cloneWithRows(responseData.movies),
+        //   rawData: responseData.movies,
+        //   moviesLoaded: true,
+        // });
+  //     })
+  //     .done();
+  // },
+
+
   fetchMovies: function() {
-    fetch(REQUEST_URL)
-      .then((response) => response.json())
-      .then((responseData) => {
-        this.setState({
-          dataSource: this.state.dataSource.cloneWithRows(responseData.movies),
-          rawData: responseData.movies,
-          moviesLoaded: true,
-        });
-      })
-      .done();
+    this.setState({
+      dataSource: this.state.dataSource.cloneWithRows(MOVIES.movies),
+      rawData: MOVIES.movies,
+      moviesLoaded: true,
+    });
   },
 
   renderMovie: function(movie) {
@@ -119,9 +122,6 @@ var ondvd = React.createClass({
               {movie.ratings.audience_score}
             </Text>
             
-            <Text style={styles.movieSynopsis}>
-              {movie.synopsis}
-            </Text>
           </View>
 
         </View>
@@ -137,6 +137,15 @@ var ondvd = React.createClass({
       Alert.alert('Oh no!', 'It looks like the synopsis is unavailable :(')
     }
   },
+
+  saveMovie: function(movie) {
+    if (!this.state.email) {
+      this.showRegistration();
+    }
+
+    // do stuff here 
+  },
+
 
 });
 
