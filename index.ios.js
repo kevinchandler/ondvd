@@ -75,10 +75,18 @@ var ondvd = React.createClass({
       'Enter your email address here and you\'ll be notified once movies of your choosing are available on DVD. Don\'t worry, you can do this later.',
       [
         {text: 'Maybe Later'},
-        {text: "Save", onPress: (text) => this.setState({email: text})}
+        {text: "Save", onPress: (text) => this.registerUser(text)}
       ],
       'plain-text'
     )
+  },
+
+  registerUser: function(email) {
+    if (!email.length) {
+      return this.showRegistration();
+    }
+
+    this.setState({ email: email.toLowerCase() })
   },
 
   // fetchMovies: function() {
@@ -93,7 +101,6 @@ var ondvd = React.createClass({
   //     })
   //     .done();
   // },
-
 
   fetchMovies: function() {
     this.setState({
@@ -158,9 +165,7 @@ var ondvd = React.createClass({
     }
 
     var form = {
-      user: {
-        email: this.state.email,
-      },
+      user: { email: this.state.email },
       movie: {
         movie_id: movie.id,
         expected_release: movie.release_dates.dvd,
@@ -176,7 +181,7 @@ var ondvd = React.createClass({
       body: JSON.stringify(form)
     })
     .then(function() {
-      console.log('done meow')
+      console.log('done')
     })
   },
 });
