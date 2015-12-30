@@ -1,6 +1,6 @@
 // TODO
 // check for null email when registering
-// handle response when saving movie
+// handle responses when saving movie
 
 'use strict';
 
@@ -154,7 +154,7 @@ var ondvd = React.createClass({
 
   saveMovie: function(movie) {
     if (!this.state.email) {
-      this.showRegistration();
+      return this.showRegistration();
     }
 
     var form = {
