@@ -1,8 +1,13 @@
+// TODO
+// check for null email when registering
+// handle response when saving movie
+
 'use strict';
 
 var React = require('react-native');
+var API_URL = 'http://localhost:3000'
 var REQUEST_URL = 'https://raw.githubusercontent.com/facebook/react-native/master/docs/MoviesExample.json';
-var MOVIES = require('./movies.json')
+var MOVIES = require('./movies.json');
 
 var {
   Alert,
@@ -152,10 +157,28 @@ var ondvd = React.createClass({
       this.showRegistration();
     }
 
-    // do stuff here 
+    var form = {
+      user: {
+        email: this.state.email,
+      },
+      movie: {
+        movie_id: movie.id,
+        expected_release: movie.release_dates.dvd,
+      },
+    }
+
+    fetch(API_URL + '/movies/new.json', {
+      method: 'post',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(form)
+    })
+    .then(function() {
+      console.log('done meow')
+    })
   },
-
-
 });
 
 var styles = StyleSheet.create({
